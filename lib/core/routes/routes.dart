@@ -1,7 +1,8 @@
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:se7ety/features/welcome/on_boarding/screens/on_boarding_screen.dart';
+import 'package:se7ety/features/welcome/on_boarding/cubit/on_boarding_cubit.dart';
 import 'package:se7ety/features/welcome/splash/screens/splash_screen.dart';
-
 class AppRoutes {
   static const String splash = '/';
   static const String onboarding = '/onboarding';
@@ -15,7 +16,10 @@ class AppRoutes {
 
       GoRoute(
         path: onboarding,
-        builder: (context, state) => const OnBoardingScreen(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => OnBoardingCubit(),
+          child: const OnBoardingScreen(),
+        ),
       ),
     ],
   );
