@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:se7ety/features/welcome/on_boarding/screens/on_boarding_screen.dart';
 import 'package:se7ety/features/welcome/splash/screens/splash_screen.dart';
 
 class AppRoutes {
@@ -11,6 +12,11 @@ class AppRoutes {
   static var routes = GoRouter(
     routes: [
       GoRoute(path: splash, builder: (context, state) => const SplashScreen()),
+
+      GoRoute(
+        path: onboarding,
+        builder: (context, state) => const OnBoardingScreen(),
+      ),
     ],
   );
 }
