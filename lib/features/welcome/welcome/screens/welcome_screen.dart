@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:se7ety/core/constants/app_images.dart';
+import 'package:se7ety/core/functions/navigations.dart';
+import 'package:se7ety/core/routes/routes.dart';
 import 'package:se7ety/core/styles/app_colors.dart';
 import 'package:se7ety/core/styles/text_styles.dart';
 import 'package:se7ety/features/welcome/welcome/widgets/user_type_card.dart';
@@ -48,9 +50,27 @@ class WelcomeScreen extends StatelessWidget {
                             ),
                           ),
                           Gap(20),
-                          UserTypeCard(title: "دكتور", onTap: () {}),
+                          UserTypeCard(
+                            title: "دكتور",
+                            onTap: () {
+                              pushTo(
+                                AppRoutes.register,
+                                context,
+                                extra: "دكتور",
+                              );
+                            },
+                          ),
                           Gap(20),
-                          UserTypeCard(title: "مريض", onTap: () {}),
+                          UserTypeCard(
+                            title: "مريض",
+                            onTap: () {
+                              pushTo(
+                                AppRoutes.register,
+                                context,
+                                extra: "مريض",
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),

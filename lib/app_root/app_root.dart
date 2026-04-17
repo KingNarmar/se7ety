@@ -23,6 +23,10 @@ class Se7ety extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Cairo',
         scaffoldBackgroundColor: AppColors.bgColor,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: AppColors.bgColor,
+          elevation: 0,
+        ),
       ),
     );
   }
