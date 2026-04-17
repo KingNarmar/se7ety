@@ -9,4 +9,5 @@ abstract class AppColors {
   static const Color accentColor = Color(0xffB4AAAA);
   static const Color errorColor = Color(0xffFF0000);
   static const Color darkColor = Color(0xff121212);
+  static const Color opacityColor = Color(0x58A9BFA6);
 }

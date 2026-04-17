@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:se7ety/core/functions/navigations.dart';
+import 'package:se7ety/core/routes/routes.dart';
 import 'package:se7ety/core/styles/text_styles.dart';
 import 'package:se7ety/core/widgets/app_button.dart';
 import 'package:se7ety/features/welcome/on_boarding/cubit/on_boarding_cubit.dart';
@@ -71,6 +73,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           if (cubit.isLastPage) {
                             // Uncomment context.pushReplacement when builder for /login is ready.
                             // context.pushReplacement(AppRoutes.login);
+                            pushAndClearStack(AppRoutes.welcome, context);
                           } else {
                             _pageController.nextPage(
                               duration: const Duration(milliseconds: 300),
