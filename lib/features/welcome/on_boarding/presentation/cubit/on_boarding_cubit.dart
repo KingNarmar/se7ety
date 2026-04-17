@@ -1,19 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:se7ety/core/constants/app_images.dart';
+import 'package:se7ety/features/welcome/on_boarding/data/models/on_boarding_model.dart';
 
 part 'on_boarding_state.dart';
-
-class OnBoardingModel {
-  final String image;
-  final String title;
-  final String body;
-
-  OnBoardingModel({
-    required this.image,
-    required this.title,
-    required this.body,
-  });
-}
 
 class OnBoardingCubit extends Cubit<OnBoardingState> {
   OnBoardingCubit() : super(OnBoardingInitial());

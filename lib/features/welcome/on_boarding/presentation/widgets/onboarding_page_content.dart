@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:se7ety/core/styles/app_colors.dart';
 import 'package:se7ety/core/styles/text_styles.dart';
-import 'package:se7ety/features/welcome/on_boarding/cubit/on_boarding_cubit.dart';
+import 'package:se7ety/features/welcome/on_boarding/data/models/on_boarding_model.dart';
 
 class OnboardingPageContent extends StatelessWidget {
   final OnBoardingModel page;

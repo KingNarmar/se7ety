@@ -5,9 +5,9 @@ import 'package:se7ety/core/functions/navigations.dart';
 import 'package:se7ety/core/routes/routes.dart';
 import 'package:se7ety/core/styles/text_styles.dart';
 import 'package:se7ety/core/widgets/app_button.dart';
-import 'package:se7ety/features/welcome/on_boarding/cubit/on_boarding_cubit.dart';
-import 'package:se7ety/features/welcome/on_boarding/widgets/onboarding_indicator.dart';
-import 'package:se7ety/features/welcome/on_boarding/widgets/onboarding_page_content.dart';
+import 'package:se7ety/features/welcome/on_boarding/presentation/cubit/on_boarding_cubit.dart';
+import 'package:se7ety/features/welcome/on_boarding/presentation/widgets/onboarding_indicator.dart';
+import 'package:se7ety/features/welcome/on_boarding/presentation/widgets/onboarding_page_content.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});

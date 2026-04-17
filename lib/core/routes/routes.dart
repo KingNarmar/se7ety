@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:se7ety/features/auth/register/register_screen.dart';
-import 'package:se7ety/features/welcome/on_boarding/cubit/on_boarding_cubit.dart';
-import 'package:se7ety/features/welcome/on_boarding/screens/on_boarding_screen.dart';
+import 'package:se7ety/features/welcome/on_boarding/presentation/cubit/on_boarding_cubit.dart';
+import 'package:se7ety/features/welcome/on_boarding/presentation/screens/on_boarding_screen.dart';
 import 'package:se7ety/features/welcome/splash/screens/splash_screen.dart';
 import 'package:se7ety/features/welcome/welcome/screens/welcome_screen.dart';
 
