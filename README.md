@@ -26,11 +26,13 @@ In this session, I implemented the main user entry journey of the application, i
 ## Features
 
 ### Splash Screen
+
 - Displays the application logo
 - Waits for a short duration before navigating automatically
 - Clears the navigation stack and moves to the onboarding flow
 
 ### Onboarding Flow
+
 - Built using `PageView`
 - Contains 3 onboarding pages
 - Uses `Cubit` to track the current page
@@ -39,6 +41,7 @@ In this session, I implemented the main user entry journey of the application, i
 - Navigates to the welcome screen after the last onboarding page
 
 ### Welcome Screen
+
 - Introduces the app to the user
 - Allows the user to choose their role:
   - Doctor
@@ -46,6 +49,7 @@ In this session, I implemented the main user entry journey of the application, i
 - Navigates to the register screen with the selected user type
 
 ### Register Screen
+
 - Displays dynamic text based on the selected user type
 - Contains:
   - Username field
@@ -54,6 +58,7 @@ In this session, I implemented the main user entry journey of the application, i
 - Includes a reusable bottom auth footer
 
 ### Login Screen
+
 - Displays dynamic user text through route preparation
 - Contains:
   - Email field
@@ -63,7 +68,9 @@ In this session, I implemented the main user entry journey of the application, i
 - Includes a reusable bottom auth footer
 
 ### Reusable Components
+
 The project includes reusable core widgets to reduce duplication and improve code organization, such as:
+
 - Custom button
 - Custom text form field
 - Password field widget
@@ -161,6 +168,7 @@ Routing is handled using `GoRouter`.
 ## State Management
 
 The onboarding flow uses `Cubit` to manage:
+
 - Current page index
 - Last page detection
 - Rebuilding the indicator and button section when the page changes
@@ -181,6 +189,7 @@ This keeps the onboarding logic separate from the UI and makes the code easier t
 ## Code Quality Highlights
 
 During this session, I focused on:
+
 - Organizing the project into features
 - Extracting reusable widgets
 - Keeping styles centralized
@@ -192,6 +201,7 @@ During this session, I focused on:
 ## Current Status
 
 ### Completed
+
 - Splash screen UI and navigation
 - Onboarding screens and page transitions
 - Onboarding indicator
@@ -204,6 +214,7 @@ During this session, I focused on:
 - Onboarding Cubit
 
 ### Planned for Future Sessions
+
 - Form validation
 - Real authentication logic
 - Backend integration
@@ -215,27 +226,20 @@ During this session, I focused on:
 
 ## Screenshots
 
-| Splash Screen | Welcome Screen |
-|---|---|
-| <img src="screen_shots/splash_screen.png" width="250"/> | <img src="screen_shots/welcom.png" width="250"/> |
+| Splash Screen | Onboarding 1 | Onboarding 2 | Onboarding 3 |
+|---|---|---|---|
+| <img src="screen_shots/splash_screen.png" width="250"/> | <img src="screen_shots/on_boarding1.png" width="250"/> | <img src="screen_shots/on_boarding2.png" width="250"/> | <img src="screen_shots/on_boarding3.png" width="250"/> |
 
-| Onboarding 1 | Onboarding 2 |
-|---|---|
-| <img src="screen_shots/on_boarding1.png" width="250"/> | <img src="screen_shots/on_boarding2.png" width="250"/> |
-
-| Onboarding 3 | Register Screen |
-|---|---|
-| <img src="screen_shots/on_boarding3.png" width="250"/> | <img src="screen_shots/register.png" width="250"/> |
-
-| Login Screen |
-|---|
-| <img src="screen_shots/login.png" width="250"/> |
+| welcom | Register Screen | Login Screen |
+|---|---|---|
+| <img src="screen_shots/welcom.png" width="250"/> | <img src="screen_shots/register.png" width="250"/> | <img src="screen_shots/login.png" width="250"/> |
 
 ---
 
 ## What I Learned
 
 Through this session, I practiced:
+
 - Building a complete app entry flow
 - Using `GoRouter` for navigation
 - Passing data between screens
