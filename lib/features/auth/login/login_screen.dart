@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:se7ety/core/constants/app_images.dart';
 import 'package:se7ety/core/functions/navigations.dart';
+import 'package:se7ety/core/routes/routes.dart';
 import 'package:se7ety/core/styles/app_colors.dart';
 import 'package:se7ety/core/styles/text_styles.dart';
 import 'package:se7ety/core/widgets/app_button.dart';
@@ -20,7 +21,7 @@ class LoginScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
-            pop(context);
+            pushAndClearStack(AppRoutes.welcome, context);
           },
           icon: SvgPicture.asset(AppImages.backIconSvg, height: 20),
         ),
@@ -101,7 +102,9 @@ class LoginScreen extends StatelessWidget {
       bottomNavigationBar: AuthFooter(
         text: "ليس لديك حساب؟",
         textButton: "سجل الان",
-        onPressed: () {},
+        onPressed: () {
+          pushTo(AppRoutes.register, context, extra: user);
+        },
       ),
     );
   }

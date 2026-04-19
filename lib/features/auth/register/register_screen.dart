@@ -21,7 +21,7 @@ class RigesterScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
-            pop(context);
+            pushAndClearStack(AppRoutes.welcome, context);
           },
           icon: SvgPicture.asset(AppImages.backIconSvg, height: 20),
         ),
@@ -34,7 +34,7 @@ class RigesterScreen extends StatelessWidget {
               Image.asset(AppImages.logo, height: 250),
               Gap(20),
               Text(
-                "سجل دخول الان كـ “$user“ ",
+                "أنشئ حساب الآن كـ \"$user\"",
                 style: TextStyles.w700s25.copyWith(
                   color: AppColors.primaryColor,
                 ),
@@ -74,7 +74,7 @@ class RigesterScreen extends StatelessWidget {
         text: "لديك حساب؟",
         textButton: "سجل دخول",
         onPressed: () {
-          pushTo(AppRoutes.login, context);
+          pushTo(AppRoutes.login, context, extra: user);
         },
       ),
     );
