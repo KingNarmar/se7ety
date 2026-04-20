@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1090980332983',
     projectId: 'se7ety-mina',
     storageBucket: 'se7ety-mina.firebasestorage.app',
-    iosBundleId: 'com.mina.se7ety',
+    iosBundleId: 'com.example.se7ety',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -73,7 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1090980332983',
     projectId: 'se7ety-mina',
     storageBucket: 'se7ety-mina.firebasestorage.app',
-    iosBundleId: 'com.mina.se7ety',
+    iosBundleId: 'com.example.se7ety',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(

@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:se7ety/features/auth/login/login_screen.dart';
-import 'package:se7ety/features/auth/register/register_screen.dart';
+import 'package:se7ety/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:se7ety/features/auth/presentation/screens/login/login_screen.dart';
+import 'package:se7ety/features/auth/presentation/screens/register/register_screen.dart';
 import 'package:se7ety/features/welcome/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 import 'package:se7ety/features/welcome/on_boarding/presentation/screens/on_boarding_screen.dart';
 import 'package:se7ety/features/welcome/splash/screens/splash_screen.dart';
@@ -36,7 +37,10 @@ class AppRoutes {
         path: register,
         builder: (context, state) {
           final userType = state.extra as String? ?? 'دكتور';
-          return RigesterScreen(user: userType);
+          return BlocProvider(
+            create: (context) => AuthCubit(),
+            child: RigesterScreen(user: userType),
+          );
         },
       ),
 
