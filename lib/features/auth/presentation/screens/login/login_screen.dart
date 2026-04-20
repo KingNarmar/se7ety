@@ -1,14 +1,21 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:se7ety/core/constants/app_images.dart';
+import 'package:se7ety/core/functions/app_validators.dart';
 import 'package:se7ety/core/functions/navigations.dart';
 import 'package:se7ety/core/routes/routes.dart';
 import 'package:se7ety/core/styles/app_colors.dart';
 import 'package:se7ety/core/styles/text_styles.dart';
 import 'package:se7ety/core/widgets/app_button.dart';
 import 'package:se7ety/core/widgets/custom_text_form_field.dart';
+import 'package:se7ety/core/widgets/dialogs.dart';
 import 'package:se7ety/core/widgets/password_text_form_field.dart';
+import 'package:se7ety/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:se7ety/features/auth/presentation/cubit/auth_state.dart';
 import 'package:se7ety/features/auth/presentation/widgets/auth_footer.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -16,19 +23,49 @@ class LoginScreen extends StatelessWidget {
   final String user;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthLoadingState) {
+          showLoadingDialog(context);
+        } else if (state is AuthSuccessState) {
+          pop(context);
+          log("Login Success");
+        } else if (state is AuthErrorState) {
+          pop(context);
+          showMyDialog(context, state.errorMessage);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            onPressed: () {
+              pushAndClearStack(AppRoutes.welcome, context);
+            },
+            icon: SvgPicture.asset(AppImages.backIconSvg, height: 20),
+          ),
+        ),
+        body: _loginBody(context),
+        bottomNavigationBar: AuthFooter(
+          text: "ليس لديك حساب؟",
+          textButton: "سجل الان",
           onPressed: () {
-            pushAndClearStack(AppRoutes.welcome, context);
+            pushTo(AppRoutes.register, context, extra: user);
           },
-          icon: SvgPicture.asset(AppImages.backIconSvg, height: 20),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
+    );
+  }
+
+  SingleChildScrollView _loginBody(BuildContext context) {
+    var cubit = context.read<AuthCubit>();
+
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Form(
+          key: cubit.formKey,
+          autovalidateMode: AutovalidateMode.onUnfocus,
           child: Column(
             children: [
               Image.asset(AppImages.logo, height: 250),
@@ -48,9 +85,22 @@ class LoginScreen extends StatelessWidget {
                   Icons.email,
                   color: AppColors.primaryColor,
                 ),
+                controller: cubit.emailController,
+                validator: (p0) => AppValidators.email(
+                  p0,
+                  emptyMessage: "البريد الإلكتروني مطلوب",
+                  invalidMessage: "البريد الإلكتروني غير صحيح",
+                ),
               ),
               Gap(20),
-              PasswordTextFormField(hint: "***********"),
+              PasswordTextFormField(
+                hint: "***********",
+                passwordController: cubit.passwordController,
+                validator: AppValidators.password(
+                  emptyMessage: "كلمة المرور مطلوبة",
+                  invalidMessage: "كلمة المرور غير صالحة",
+                ),
+              ),
               Gap(10),
               Row(
                 children: [
@@ -68,7 +118,11 @@ class LoginScreen extends StatelessWidget {
               Gap(10),
               AppButton(
                 text: "تسجيل الدخول",
-                onPressed: () {},
+                onPressed: () {
+                  if (cubit.formKey.currentState!.validate()) {
+                    cubit.login();
+                  }
+                },
                 width: double.infinity,
                 borderRadius: 20,
                 height: 60,
@@ -98,13 +152,6 @@ class LoginScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: AuthFooter(
-        text: "ليس لديك حساب؟",
-        textButton: "سجل الان",
-        onPressed: () {
-          pushTo(AppRoutes.register, context, extra: user);
-        },
       ),
     );
   }

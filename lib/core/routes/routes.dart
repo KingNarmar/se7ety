@@ -48,7 +48,10 @@ class AppRoutes {
         path: login,
         builder: (context, state) {
           final userType = state.extra as String? ?? 'دكتور';
-          return LoginScreen(user: userType);
+          return BlocProvider(
+            create: (context) => AuthCubit(),
+            child: LoginScreen(user: userType),
+          );
         },
       ),
     ],

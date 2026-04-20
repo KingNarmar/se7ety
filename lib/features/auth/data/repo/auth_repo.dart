@@ -4,7 +4,35 @@ import 'package:se7ety/core/service/firebase/failuer/failuer.dart';
 import 'package:se7ety/features/auth/data/models/auth_params.dart';
 
 abstract class AuthRepo {
-  static void login() {}
+  static Future<Either<Failuer, String>> login({
+    required AuthParams params,
+  }) async {
+    try {
+      final credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+            email: params.email,
+            password: params.password,
+          );
+     if(credential.user?.photoURL == "patient"){
+        return const Right("مريض");
+      } else if(credential.user?.photoURL == "doctor"){
+        return const Right("طبيب");
+      }
+      return Left(Failuer(message: 'مستخدم غير معروف'));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        return Left(Failuer(message: 'كلمه المرور ضعيفه'));
+      } else if (e.code == 'email-already-in-use') {
+        return Left(
+          Failuer(message: 'الحساب موجود بالفعل لهذا البريد الإلكتروني'),
+        );
+      } else {
+        return Left(Failuer(message: 'حدث خطأ غير متوقع'));
+      }
+    } catch (e) {
+      return Left(Failuer(message: 'حدث خطأ غير متوقع'));
+    }
+  }
 
   static Future<Either<Failuer, Unit>> registerPatient({
     required AuthParams params,

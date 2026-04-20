@@ -44,6 +44,7 @@ dependencies:
   firebase_auth: ^6.4.0
   dartz: ^0.10.1
   lottie: ^3.3.3
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:
