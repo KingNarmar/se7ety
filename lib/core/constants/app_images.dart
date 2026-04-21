@@ -9,4 +9,7 @@ abstract class AppImages {
   static const String emailIconSvg = "assets/icons/email.svg";
   static const String passwordIconSvg = "assets/icons/password.svg";
   static const String loadingJson = "assets/images/loading.json";
+  static const String homeAppBar = "assets/images/home_app_bar.png";
+  static const String notificationsIconSvg = "assets/icons/notifications.svg";
+  static const String specialty1Svg = "assets/images/Specializations-card.svg";
 }
