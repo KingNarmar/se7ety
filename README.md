@@ -1,25 +1,29 @@
 # Se7ety App
 
-Se7ety is a Flutter application built as part of **Session 25** in my Flutter course.  
-This session focused on creating the complete entry flow of the app, starting from the splash screen, passing through onboarding, then the welcome screen, and finally reaching the authentication screens.
+Se7ety is a Flutter application built as part of **Session 26** in my Flutter course.
 
-The project is organized in a clean and modular way using a **feature-based structure**, with reusable widgets, centralized styling, named routing, and Cubit for onboarding state management.
+In this session, I moved the project from a pure entry-flow UI into a more functional app by adding **Firebase Authentication**, **Cloud Firestore**, **local persistence with SharedPreferences**, and the first implemented screen of the patient side, which is the **Patient Home Screen**.
+
+The project is organized using a **feature-based structure**, with reusable widgets, centralized styling, `GoRouter` for navigation, and `Cubit` for state management.
 
 ---
 
-## Session 25 Scope
+## Session 26 Scope
 
-In this session, I implemented the main user entry journey of the application, including:
+This session focused on upgrading the app from static authentication screens into a connected flow with real logic and the first patient-side experience.
 
-- Splash screen
-- Onboarding flow
-- Welcome screen
-- Register screen
-- Login screen
-- Reusable UI components
-- Routing between screens
-- User type selection flow
-- Onboarding state management using Cubit
+Implemented in this session:
+
+- Firebase initialization
+- Login with Firebase Authentication
+- Register with Firebase Authentication
+- Save doctor and patient data in Cloud Firestore
+- Form validation for authentication screens
+- SharedPreferences for onboarding and login persistence
+- Splash screen decision logic
+- Patient main app layout with bottom navigation
+- Patient home screen UI
+- Reusable loading and feedback dialogs
 
 ---
 
@@ -27,57 +31,133 @@ In this session, I implemented the main user entry journey of the application, i
 
 ### Splash Screen
 
-- Displays the application logo
-- Waits for a short duration before navigating automatically
-- Clears the navigation stack and moves to the onboarding flow
+- Displays the app logo
+- Waits briefly before navigating
+- Decides the next screen based on the current app state:
+  - If the user is already logged in, it opens the **Patient Main App Screen**
+  - If onboarding has already been shown, it opens the **Welcome Screen**
+  - Otherwise, it opens the **Onboarding Screen**
 
 ### Onboarding Flow
 
 - Built using `PageView`
 - Contains 3 onboarding pages
 - Uses `Cubit` to track the current page
-- Shows a custom page indicator
-- Changes button behavior based on the current page
-- Navigates to the welcome screen after the last onboarding page
+- Displays a custom onboarding indicator
+- Changes the button text on the last page
+- Saves onboarding state locally using `SharedPreferences`
+- Navigates to the welcome screen after completion
 
 ### Welcome Screen
 
 - Introduces the app to the user
-- Allows the user to choose their role:
+- Allows choosing the account type:
   - Doctor
   - Patient
-- Navigates to the register screen with the selected user type
+- Passes the selected user type to the authentication screens
 
 ### Register Screen
 
 - Displays dynamic text based on the selected user type
-- Contains:
-  - Username field
+- Includes:
+  - Name field
   - Email field
   - Password field
-- Includes a reusable bottom auth footer
+- Validates all inputs before submitting
+- Creates the account using **Firebase Authentication**
+- Stores basic user data in **Cloud Firestore**
+- Saves the user ID locally using `SharedPreferences`
+- Shows loading and error feedback through reusable dialogs
 
 ### Login Screen
 
-- Displays dynamic user text through route preparation
-- Contains:
+- Displays dynamic text based on the selected user type
+- Includes:
   - Email field
   - Password field
-  - Forgot password button
+  - Forgot password button UI
   - Google button placeholder
-- Includes a reusable bottom auth footer
+- Validates form inputs before login
+- Logs the user in using **Firebase Authentication**
+- Saves the user ID locally using `SharedPreferences`
+- Navigates to the patient main layout after success
+- Shows loading and error feedback through reusable dialogs
+
+### Authentication Logic
+
+Authentication is managed using `AuthCubit`, which handles:
+
+- Loading state
+- Success state
+- Error state
+
+This keeps business logic separated from UI and makes the flow easier to maintain.
+
+### Firestore Integration
+
+The app stores user data in separate Firestore collections:
+
+- `doctors`
+- `patients`
+
+Two models are prepared for user data:
+
+- `DoctorModel`
+- `PatientModel`
+
+These models already include extra fields to support future development and profile expansion.
+
+### Local Persistence
+
+The app uses `SharedPreferences` to store:
+
+- Whether onboarding has already been shown
+- The currently logged-in user ID
+
+This improves the user flow and avoids repeating onboarding every time the app opens.
+
+### Patient Main App Layout
+
+A patient-side main layout was added using bottom navigation.
+
+Current tabs:
+
+- Home
+- Search
+- Appointments
+- Profile
+
+At this stage, the **Home** screen is the implemented screen, while the other tabs are placeholder containers prepared for future sessions.
+
+### Patient Home Screen
+
+A new patient home screen was added in this session.
+
+It currently includes:
+
+- App bar with app title and notification icon
+- Greeting section
+- Search field
+- Horizontal specialties section
+- Top-rated doctors section
+- Reusable specialty cards
+- Reusable doctor cards
 
 ### Reusable Components
 
-The project includes reusable core widgets to reduce duplication and improve code organization, such as:
+The app continues to use reusable shared widgets and helpers, such as:
 
-- Custom button
-- Custom text form field
-- Password field widget
-- Auth footer
-- User type card
-- Onboarding indicator
-- Onboarding page content widget
+- `AppButton`
+- `CustomTextFormField`
+- `PasswordTextFormField`
+- `AuthFooter`
+- `UserTypeCard`
+- `OnboardingIndicator`
+- `OnboardingPageContent`
+- `DoctorCard`
+- `SpecialtyCard`
+- `SpecialtySection`
+- `dialogs.dart`
 
 ---
 
@@ -87,9 +167,17 @@ The project includes reusable core widgets to reduce duplication and improve cod
 - Dart
 - flutter_bloc
 - go_router
-- flutter_svg
-- gap
+- firebase_core
+- firebase_auth
+- cloud_firestore
+- shared_preferences
+- easy_localization
 - flutter_localizations
+- flutter_svg
+- google_nav_bar
+- lottie
+- dartz
+- gap
 
 ---
 
@@ -104,25 +192,58 @@ The project includes reusable core widgets to reduce duplication and improve cod
     │   │   ├── app_fonts.dart
     │   │   └── app_images.dart
     │   ├── functions/
+    │   │   ├── app_validators.dart
     │   │   └── navigations.dart
     │   ├── routes/
     │   │   └── routes.dart
+    │   ├── service/
+    │   │   ├── firebase/
+    │   │   │   ├── failuer/
+    │   │   │   │   └── failuer.dart
+    │   │   │   └── firestore_provider.dart
+    │   │   └── local/
+    │   │       └── shared_pref.dart
     │   ├── styles/
     │   │   ├── app_colors.dart
     │   │   └── text_styles.dart
     │   └── widgets/
     │       ├── app_button.dart
     │       ├── custom_text_form_field.dart
+    │       ├── dialogs.dart
     │       └── password_text_form_field.dart
     │
     ├── features/
     │   ├── auth/
-    │   │   ├── login/
-    │   │   │   └── login_screen.dart
-    │   │   ├── register/
-    │   │   │   └── register_screen.dart
-    │   │   └── widgets/
-    │   │       └── auth_footer.dart
+    │   │   ├── data/
+    │   │   │   ├── models/
+    │   │   │   │   ├── auth_params.dart
+    │   │   │   │   ├── doctor_model.dart
+    │   │   │   │   └── patient_model.dart
+    │   │   │   └── repo/
+    │   │   │       └── auth_repo.dart
+    │   │   └── presentation/
+    │   │       ├── cubit/
+    │   │       │   ├── auth_cubit.dart
+    │   │       │   └── auth_state.dart
+    │   │       ├── screens/
+    │   │       │   ├── login/
+    │   │       │   │   └── login_screen.dart
+    │   │       │   └── register/
+    │   │       │       └── register_screen.dart
+    │   │       └── widgets/
+    │   │           └── auth_footer.dart
+    │   │
+    │   ├── home/
+    │   │   └── presentation/
+    │   │       ├── screens/
+    │   │       │   └── patient_home_screen.dart
+    │   │       └── widgets/
+    │   │           ├── doctor_card.dart
+    │   │           ├── specialty_card.dart
+    │   │           └── specialty_section.dart
+    │   │
+    │   ├── main/
+    │   │   └── patient_main_app_screen.dart
     │   │
     │   └── welcome/
     │       ├── splash/
@@ -147,54 +268,58 @@ The project includes reusable core widgets to reduce duplication and improve cod
     │                   ├── onboarding_indicator.dart
     │                   └── onboarding_page_content.dart
     │
+    ├── firebase_options.dart
     └── main.dart
 
 ---
 
 ## Navigation Flow
 
-The current flow of the app is:
+The current user flow is:
 
 **Splash Screen**  
-→ **Onboarding**  
+→ **Onboarding** *(first launch only)*  
 → **Welcome Screen**  
-→ **Register Screen**  
-→ **Login Screen**
+→ **Register / Login**  
+→ **Patient Main App Screen**  
+→ **Patient Home Screen**
 
-Routing is handled using `GoRouter`.
+Navigation is handled using `GoRouter`.
 
 ---
 
-## State Management
+## Validation
 
-The onboarding flow uses `Cubit` to manage:
+The authentication forms currently validate:
 
-- Current page index
-- Last page detection
-- Rebuilding the indicator and button section when the page changes
+- User name
+- Email
+- Password
 
-This keeps the onboarding logic separate from the UI and makes the code easier to maintain.
+Validation logic is centralized in `app_validators.dart` to keep it reusable and clean.
 
 ---
 
 ## UI and Localization
 
-- The app is currently configured with **Arabic locale**
-- The UI uses the **Cairo** font
-- The structure is prepared for an Arabic user experience
-- The design follows a simple and clean healthcare-oriented style
+- The app is currently configured to run in **Arabic**
+- The app uses the **Cairo** font
+- `EasyLocalization` is initialized in the project setup
+- Flutter localization delegates are added
+- The UI is designed with a healthcare-oriented Arabic experience
 
 ---
 
 ## Code Quality Highlights
 
-During this session, I focused on:
+In this session, I focused on:
 
-- Organizing the project into features
-- Extracting reusable widgets
-- Keeping styles centralized
-- Separating logic from UI where needed
-- Making the code easier to read and extend later
+- Connecting UI screens to real authentication logic
+- Keeping logic separated from UI using Cubit and repository-based organization
+- Reusing shared widgets and helper functions
+- Centralizing validation and feedback handling
+- Improving app flow with splash decision logic and local caching
+- Preparing the project for future doctor and patient features
 
 ---
 
@@ -202,25 +327,28 @@ During this session, I focused on:
 
 ### Completed
 
-- Splash screen UI and navigation
-- Onboarding screens and page transitions
-- Onboarding indicator
-- Welcome screen
-- Doctor / Patient selection
-- Register screen UI
-- Login screen UI
-- Reusable shared widgets
-- Routing setup
-- Onboarding Cubit
+- Splash screen decision logic
+- Onboarding flow with persistence
+- Welcome screen with user type selection
+- Register screen validation and Firebase integration
+- Login screen validation and Firebase integration
+- Firestore integration for saving user data
+- SharedPreferences integration
+- AuthCubit for authentication states
+- Patient main app layout
+- Patient home screen
+- Reusable dialogs and shared widgets
 
 ### Planned for Future Sessions
 
-- Form validation
-- Real authentication logic
-- Backend integration
-- Forgot password flow
-- Google sign-in integration
-- Doctor and patient specific app flows
+- Real doctor-side main flow
+- Search screen implementation
+- Appointments flow
+- Profile screen implementation
+- Forgot password functionality
+- Google sign-in
+- Dynamic backend-driven home content
+- More complete Firestore profile data management
 
 ---
 
@@ -228,11 +356,11 @@ During this session, I focused on:
 
 | Splash Screen | Onboarding 1 | Onboarding 2 | Onboarding 3 |
 |---|---|---|---|
-| <img src="screen_shots/splash_screen.png" width="250"/> | <img src="screen_shots/on_boarding1.png" width="250"/> | <img src="screen_shots/on_boarding2.png" width="250"/> | <img src="screen_shots/on_boarding3.png" width="250"/> |
+| <img src="screen_shots/splash_screen.png" width="220"/> | <img src="screen_shots/on_boarding1.png" width="220"/> | <img src="screen_shots/on_boarding2.png" width="220"/> | <img src="screen_shots/on_boarding3.png" width="220"/> |
 
-| welcom | Register Screen | Login Screen |
-|---|---|---|
-| <img src="screen_shots/welcom.png" width="250"/> | <img src="screen_shots/register.png" width="250"/> | <img src="screen_shots/login.png" width="250"/> |
+| Welcome Screen | Register Screen | Login Screen | Patient Home Screen |
+|---|---|---|---|
+| <img src="screen_shots/welcom.png" width="220"/> | <img src="screen_shots/register.png" width="220"/> | <img src="screen_shots/login.png" width="220"/> | <img src="screen_shots/patient_home_screen.png" width="220"/> |
 
 ---
 
@@ -240,19 +368,19 @@ During this session, I focused on:
 
 Through this session, I practiced:
 
-- Building a complete app entry flow
-- Using `GoRouter` for navigation
-- Passing data between screens
-- Managing onboarding state with `Cubit`
-- Structuring Flutter code in a modular way
-- Creating reusable widgets for cleaner code
+- Initializing Firebase in Flutter
+- Building register and login flows with Firebase Authentication
+- Saving user data in Cloud Firestore
+- Managing authentication state using Cubit
+- Persisting onboarding and user session data locally
+- Creating a better first-run and returning-user flow
+- Building the first patient-side home UI
+- Keeping the code modular and easier to maintain
 
 ---
 
 ## Conclusion
 
-Session 25 was an important step in building the foundation of the Se7ety app.
+Session 26 was an important step in making Se7ety feel like a real application instead of just a UI flow.
 
-It helped me create a better structured Flutter project with a complete entry flow, reusable components, and cleaner navigation between screens. This makes the project easier to maintain and gives a strong base for future development.
-
----
+The project now includes authentication logic, Firestore integration, local persistence, and the first implemented patient screen after login. This gives the app a much stronger base for future expansion and makes the structure more ready for scalable development.
