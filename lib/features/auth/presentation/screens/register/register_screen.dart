@@ -30,6 +30,7 @@ class RigesterScreen extends StatelessWidget {
         } else if (state is AuthSuccessState) {
           log("success");
           pop(context);
+          pushAndClearStack(AppRoutes.patientMain, context);
         } else if (state is AuthErrorState) {
           pop(context);
           showMyDialog(context, state.errorMessage);

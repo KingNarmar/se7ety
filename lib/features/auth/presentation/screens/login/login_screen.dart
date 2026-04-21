@@ -30,6 +30,7 @@ class LoginScreen extends StatelessWidget {
         } else if (state is AuthSuccessState) {
           pop(context);
           log("Login Success");
+          pushAndClearStack(AppRoutes.patientMain, context);
         } else if (state is AuthErrorState) {
           pop(context);
           showMyDialog(context, state.errorMessage);

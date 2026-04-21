@@ -18,8 +18,12 @@ abstract class SharedPref {
     return pref.getBool(onboarding) ?? false;
   }
 
-  static Future<void> cacheUserId(String userId) async {
-    await pref.setString(userId, userId);
+  static Future<void> cacheUserId(String uid) async {
+    await pref.setString(userId, uid);
+  }
+
+  static Future<void> removeUserId() async {
+    await pref.remove(userId);
   }
 
   static String getUserId() {
