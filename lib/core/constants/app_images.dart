@@ -12,4 +12,5 @@ abstract class AppImages {
   static const String homeAppBar = "assets/images/home_app_bar.png";
   static const String notificationsIconSvg = "assets/icons/notifications.svg";
   static const String specialty1Svg = "assets/images/Specializations-card.svg";
+  static const String docPic1 = "assets/images/doc_pic.png";
 }
