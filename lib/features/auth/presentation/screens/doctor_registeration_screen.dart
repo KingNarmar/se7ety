@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:se7ety/core/styles/app_colors.dart';
@@ -7,9 +9,19 @@ import 'package:se7ety/core/widgets/custom_text_form_field.dart';
 import 'package:se7ety/features/auth/presentation/widgets/profile_pic_section.dart';
 import 'package:se7ety/features/auth/presentation/widgets/working_hours_section.dart';
 
-class DoctorRegisterationScreen extends StatelessWidget {
+class DoctorRegisterationScreen extends StatefulWidget {
   const DoctorRegisterationScreen({super.key});
 
+  @override
+  State<DoctorRegisterationScreen> createState() =>
+      _DoctorRegisterationScreenState();
+}
+
+class _DoctorRegisterationScreenState extends State<DoctorRegisterationScreen> {
+  String? _imagePath;
+  File? file;
+  String? profileUrl;
+  String? userID;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

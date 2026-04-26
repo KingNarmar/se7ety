@@ -12,6 +12,13 @@ class AuthCubit extends Cubit<AuthState> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final bioController = TextEditingController();
+  final addressController = TextEditingController();
+  final onpenHoursController = TextEditingController();
+  final closeHoursController = TextEditingController();
+  final phone1Controller = TextEditingController();
+  final phone2Controller = TextEditingController();
+  String? specialization;
   Future<void> register(String user) async {
     emit(AuthLoadingState());
     var params = AuthParams(
