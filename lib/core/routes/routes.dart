@@ -1,8 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:se7ety/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:se7ety/features/auth/presentation/screens/login/login_screen.dart';
-import 'package:se7ety/features/auth/presentation/screens/register/register_screen.dart';
+import 'package:se7ety/features/auth/presentation/screens/doctor_registeration_screen.dart';
+import 'package:se7ety/features/auth/presentation/screens/login_screen.dart';
+import 'package:se7ety/features/auth/presentation/screens/register_screen.dart';
 import 'package:se7ety/features/home/presentation/screens/patient_home_screen.dart';
 import 'package:se7ety/features/main/patient_main_app_screen.dart';
 import 'package:se7ety/features/welcome/on_boarding/presentation/cubit/on_boarding_cubit.dart';
@@ -18,6 +19,7 @@ class AppRoutes {
   static const String register = '/register';
   static const String patientMain = '/patientMain';
   static const String patientHome = '/patientHome';
+  static const String doctorRegister = '/doctorRegister';
 
   static var routes = GoRouter(
     routes: [
@@ -66,6 +68,11 @@ class AppRoutes {
       GoRoute(
         path: patientHome,
         builder: (context, state) => const PatientHomeScreen(),
+      ),
+
+      GoRoute(
+        path: doctorRegister,
+        builder: (context, state) => const DoctorRegisterationScreen(),
       ),
     ],
   );

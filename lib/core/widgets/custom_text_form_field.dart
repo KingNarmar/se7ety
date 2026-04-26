@@ -9,18 +9,24 @@ class CustomTextFormField extends StatelessWidget {
     this.hintText,
     this.controller,
     this.validator,
+    this.maxLines = 1,
+    this.suffixIcon,
   });
   final Widget? prefixIcon;
   final String? hintText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final int maxLines;
+  final Widget? suffixIcon;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       validator: validator,
       controller: controller,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
         hintText: hintText,
         hintStyle: TextStyles.w400s15.copyWith(color: AppColors.accentColor),
         border: OutlineInputBorder(
